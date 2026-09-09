@@ -1,0 +1,865 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html{
+    scroll-behavior: smooth;
+}
+
+@font-face{
+    font-family: 'Gobold Uplow';
+    src: url('font/Gobold-Uplow.otf') format('opentype');
+}
+
+body{
+    background: #1a1a1a;
+}
+
+.container{
+    width: 100%;
+    min-height: 100vh;
+}
+
+.home{
+    width: 100%;
+    background: #1a1a1a;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.nav{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 80px;
+    font-size: 27px;
+}
+
+.logoContent{
+    width: 80%;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 0 100px;
+}
+
+.logoImg{
+    --logo-font-size: 15px;
+    --logo-color: #e6e6e6;
+    --circle-size: 32px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.d, .w{
+    font-family: 'Gobold Uplow', sans-serif;
+    font-size: var(--logo-font-size);
+    color: var(--logo-color);
+}
+
+.w{
+    margin-left: -3.7px;
+}
+.b{
+    width: 2.6px;
+    height: 10px;
+    background: var(--logo-color);
+    margin:0px -3.15px;
+    margin-top: -14px;
+}
+
+.c{
+    width: 2.6px;
+    height: 2.6px;
+    background: var(--logo-color);
+    border-radius: 100%;
+    margin: 0px -3.3px;
+    margin-top: -21px;
+}
+.r{
+    width: var(--circle-size);
+    height: var(--circle-size);
+    border: 2px solid var(--logo-color);
+    border-radius: 100%;
+    margin: 0px -18.3px;
+    margin-top: -2.5px;
+}
+
+.brandName{
+    font-family: montserrat;
+    font-size: 20px;
+    margin: 0 24px;
+    height: 6px 38px;
+    color: #e6e6e6;
+}
+
+.links{
+    display: flex;
+    width: 20%;
+}
+
+.nav .links ul{
+    width: 50%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    list-style: none;
+}
+
+.links ul li a{
+    font-family: montserrat;
+    font-size: 20px;
+    text-decoration: none;
+    font-weight: 600;
+    color: #e6e6e6;
+}
+
+.links ul li a:hover{
+    color: #e6e6e6;
+    transition: 0.5s ease-out;
+}
+
+.links ul li .active{
+    color: #ed3237;
+}
+
+.headText{
+    width: 62%;
+    display: flex;
+    font-family: montserrat;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.headCategory{
+    width: 50%;
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+}
+
+.headCategory h1{
+    font-size: 40px;
+    color: #e6e6e6;
+
+}
+
+
+.headNav .headNavBtn{
+    background: #e6e6e6;
+    font-family: montserrat;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 4px 21px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all ease-in-out 0.2s;
+}
+.headNav .headNavBtn.active{
+    background: #ed3237;
+}
+
+.headNav .headNavBtn:hover{
+    background: #1a1a1a;
+    box-shadow: 0 0 7px 0 #ed3237;
+    color: #e6e6e6;
+}
+
+/* Wrapping context so the decorative background logos can be an absolutely
+   positioned layer behind taskTitle, instead of relying on negative
+   margins/transforms hand-tuned for one exact document height. The wrap
+   itself only takes up as much height as the Task/Add task row needs -
+   the logo layer is decoupled from that and centers on top of it. */
+.taskHeaderWrap{
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    overflow: visible;
+}
+
+.stickyContainer{
+    --logoUnit: 250px;
+
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: calc(var(--logoUnit) * 1.4);
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    overflow: hidden;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.parent, .parent2{
+    position: relative;
+    width: calc(var(--logoUnit) * 1.4);
+    height: calc(var(--logoUnit) * 1.4);
+}
+
+.parent{
+    margin-left: calc(var(--logoUnit) * -0.86);
+}
+
+.parent2{
+    transform: scaleX(-1);
+    margin: calc(var(--logoUnit) * -0.86);
+}
+
+.child{
+    --logo-color: #e6e6e6;
+
+    position: absolute;
+    inset: 0;
+    font-size: var(--logoUnit);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dbg, .wbg{
+    font-family: 'Gobold Uplow', sans-serif;
+    font-size: 1em;
+    color: var(--logo-color);
+}
+
+.wbg{
+    margin-left: -0.247em;
+}
+.bbg{
+    width: 0.168em;
+    height: 0.4em;
+    background: var(--logo-color);
+    margin-left: -0.208em;
+    margin-top: -1.2em;
+}
+
+.cbg{
+    width: 0.1676em;
+    height: 0.1676em;
+    background: var(--logo-color);
+    border-radius: 100%;
+    margin-left: -0.43em;
+    margin-top: -1.32em;
+    position: relative;
+    animation: moveCircle 3s ease-in-out infinite;
+}
+
+@keyframes moveCircle{
+    0%, 100%{
+        transform: translateY(0); /* point a */
+    }
+    50%{
+        transform: translateY(-40px);
+    }
+    100%{
+        transform: translateY(0); /* point a */
+    }
+}
+
+.taskCategory{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 40px;
+    gap: 7px;
+    z-index: 1;
+}
+
+.taskCatBtn{
+    width: 14%;
+    background: #e6e6e6;
+    padding: 7px 0;
+    border: none;
+    border-radius: 10px;
+    font-size: 25px;
+    font-family: montserrat;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all ease-in-out 0.2s;
+}
+
+.taskCategory .taskCatBtn.active{
+    background: #ed3237;
+}
+
+.taskCatBtn:hover, .taskCatBtn.active:hover{
+    background: #1a1a1a;
+    color: #e6e6e6;
+    box-shadow: 0 0 7px 0 #ed3237;
+}
+
+.taskTitle{
+    position: relative;
+    z-index: 1;
+    display: flex;
+    width: 62%;
+    font-family: montserrat;
+    align-items: center;
+    justify-items: center;
+    justify-content: space-between;
+}
+
+.taskTitle h2{
+    color: #e6e6e6;
+    font-weight: 600;
+}
+
+.addSymbolText{
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+
+.addTask{
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #e6e6e6;
+    border-radius: 100%;
+    background: transparent;
+    font-size: 16px;
+    color: #e6e6e6;
+    cursor: pointer;
+}
+
+
+/* TASK FRAME FORM */
+.taskFrame{ 
+    width: 62%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 365px;
+    border: 1.5px solid black;
+    border-radius: 10px;
+    z-index: 1;
+    margin-bottom: 40px;
+    padding-top: 10px;
+}
+
+.todoWrapper{
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow-y: auto;
+    align-items: center;
+    height: auto;
+    gap: 10px;
+
+}
+
+.todoContainer{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    min-height: 35px;
+    height: auto;
+    padding: 4px 0;
+    justify-content: center;
+    font-family: montserrat;
+}
+
+.todo{
+    display: flex;
+    width: 70%;
+    justify-content: flex-start;
+}
+
+.todoDetailsWrapper{
+    width: 70%;
+    display: flex;
+    flex-direction: row;
+    gap: 7px;
+}
+
+.todo input{
+    height: 15px;
+    width: 15px;
+    cursor: pointer;
+    margin-top: 3px;
+}
+
+.todoDetailsWrapper .inputText{
+    display: flex;
+    flex-direction: column;
+}
+
+.todo p{
+    color: #e6e6e6;
+    font-size: 15px;
+    font-weight: 400;
+}
+
+.description{
+    color: rgb(162, 162, 162);
+    font-size: 13px;
+    font-style: italic;
+}
+
+.emptyState{
+    color: rgb(162, 162, 162);
+    font-size: 14px;
+    font-style: italic;
+    text-align: center;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.btnContainer{
+    width: 30%;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.btnContainer .modify{
+    width: 37px;
+    height: 20px;
+    border-radius: 15%;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    background: black;
+    color: #e6e6e6;
+    transition: ease-in 0.1s;
+}
+
+.btnContainer .modify:hover{
+    box-shadow: 0 0 7px 0 #ed3237;
+}
+
+.btnContainer .modify:active{
+    background: #ed3237;
+    color: #e6e6e6;
+    transition: ease-out 0.1s;
+}
+
+.taskPercent{
+    width: 90%;
+    display: flex;
+    font-family: montserrat;
+    font-size: 15px;
+    font-weight: 500;
+    color: #e6e6e6;
+    align-items: center;
+    justify-content: space-between;
+    padding: 30px 0;
+    margin-top: auto;
+}
+
+.percentText{
+    display: flex;
+    width: 50%;
+    gap: 8px;
+    align-items: center;
+}
+
+.taskPercent input{
+    height: 15px;
+    cursor: pointer;   
+}
+
+.percentRate{
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Backdrop behind the create-task modal */
+.modalBackdrop{
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 19;
+}
+
+.modalBackdrop.show{
+    opacity: 1;
+    visibility: visible;
+}
+
+/* FORM CONTAINER */
+.createTask {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: min(480px, 90vw);
+    max-height: 85vh;
+    overflow-y: auto;
+    background: #1a1a1a;
+    padding: 24px;
+    border-radius: 14px;
+    box-shadow: 0 0 7px 0 #ed3237;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    z-index: 20;
+    font-family: montserrat;
+    box-sizing: border-box;
+
+    /* animation setup */
+    opacity: 0;
+    visibility: hidden;
+    transform: translate(-50%, -50%) translateY(20px);
+
+    transition: opacity 0.3s ease,
+                transform 0.3s ease,
+                visibility 0.3s ease;
+}
+
+.createTask.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, -50%);
+}
+
+.createTask h2{
+    color: #e6e6e6;
+    width: 90%;
+}
+
+.taskTitleForm{
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.taskTitleForm label{
+    color: #e6e6e6;
+    font-size: 13px;
+}
+
+.taskTitleForm input{
+    height: 40px;
+    border-radius: 5px;
+    padding-left: 10px;
+    font-family: montserrat;
+    background: #1a1a1a;
+    color: #e6e6e6;
+    border: none;
+    box-shadow: 0 0 7px #ed3237;
+    cursor: pointer;
+    font-size: 13px;
+}
+.taskTitleForm input::placeholder{
+    color: #e6e6e6;
+}
+
+.formContent{
+    width: 90%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.deadline, .category{
+    width: 49.5%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.category{
+    display: flex;
+    align-items: flex-start;
+}
+
+.deadline label, .category label{
+    color: #e6e6e6;
+    font-size: 13px;
+}
+
+.deadline label, .category label{
+    font-size: 13px;
+}
+
+.category select{
+    width: 100%;
+}
+
+.deadline input, .category select{
+    height: 40px;
+    border-radius: 5px;
+    padding-left: 10px;
+    font-family: montserrat;
+    background: #1a1a1a;
+    color: #e6e6e6;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.comment{
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    font-family: montserrat;
+}
+
+.comment label{
+    color: #e6e6e6;
+    font-size: 13px; 
+}
+
+.comment textarea{
+    resize: none;
+    height: 85px;
+    border-radius: 5px;
+    font-family: montserrat;
+    padding: 10px;
+    color: #e6e6e6;
+    background: #1a1a1a;
+    font-size: 13px;
+    
+}
+
+.comment textarea::placeholder{
+    color:#e6e6e6;
+}
+
+.taskDecisionBtn{
+    width: 90%;
+    display: flex;
+    justify-content: flex-end;
+    gap: 5px;
+}
+
+.updateTask{
+    min-width: 90px;
+    padding: 6px 16px;
+    background: #1a1a1a;
+    color: #e6e6e6;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 0 3px #ed3237;
+    font-family: montserrat;
+    font-size: 12px;
+    font-weight: 400;
+    transition: all ease-in-out 0.2s;
+    cursor: pointer;
+}
+.updateTask.active{
+    background: #ed3237;
+}
+.updateTask:hover{
+    background: #1a1a1a;
+    box-shadow: 0 0 7px 5px #ed3237;
+    color: #e6e6e6;
+}
+.updateTask:active{
+    background: #e6e6e6;
+    box-shadow: 0 0 7px 5px #ed3237;
+    color: #e6e6e6;
+}
+
+/* ==========================================================
+   RESPONSIVE STYLES
+   ========================================================== */
+
+/* ---------- Tablets / small laptops ---------- */
+@media (max-width: 1024px){
+
+    /* scale the decorative dw logos down for tablet */
+    .stickyContainer{
+        --logoUnit: 160px;
+    }
+
+    .logoContent{
+        width: auto;
+        padding: 0 20px;
+    }
+
+    .links{
+        width: auto;
+        padding-right: 20px;
+    }
+
+    .nav .links ul{
+        width: auto;
+    }
+
+    .headText, .taskTitle, .taskFrame{
+        width: 80%;
+    }
+
+    .headCategory h1{
+        font-size: 32px;
+    }
+}
+
+/* ---------- Tablets portrait / large phones ---------- */
+@media (max-width: 768px){
+
+    .nav{
+        flex-wrap: wrap;
+        height: auto;
+        padding: 15px 0;
+        font-size: 20px;
+    }
+
+    .logoContent{
+        justify-content: center;
+    }
+
+    .brandName{
+        font-size: 16px;
+    }
+
+    /* decorative dw logos add clutter at this size, hide them */
+    .stickyContainer{
+        display: none;
+    }
+
+    .taskHeaderWrap{
+        margin-top: 8px;
+        margin-bottom: 8px;
+    }
+
+    .headText{
+        width: 90%;
+        flex-direction: column;
+        gap: 20px;
+        align-items: stretch;
+    }
+
+    .headCategory{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .headCategory h1{
+        font-size: 26px;
+    }
+
+    .taskCategory{
+        margin-top: 24px;
+    }
+
+    .taskCatBtn{
+        width: 30%;
+        font-size: 16px;
+        padding: 8px 0;
+    }
+
+    .taskTitle{
+        width: 90%;
+    }
+
+    .taskTitle h2{
+        font-size: 18px;
+    }
+
+    .taskFrame{
+        width: 90%;
+        height: 320px;
+    }
+
+    .todo{
+        width: 100%;
+    }
+
+    .todoDetailsWrapper{
+        width: 100%;
+    }
+
+    .btnContainer{
+        width: auto;
+        margin-left: 10px;
+    }
+
+    /* create-task modal */
+    .createTask{
+        width: min(420px, 92vw);
+        max-height: 88vh;
+        padding: 18px;
+        gap: 14px;
+    }
+
+    .formContent{
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .deadline, .category{
+        width: 100%;
+    }
+}
+
+/* ---------- Small phones ---------- */
+@media (max-width: 480px){
+
+    .headCategory h1{
+        font-size: 22px;
+    }
+
+    .headNav .headNavBtn{
+        font-size: 12px;
+        padding: 4px 14px;
+    }
+
+    .taskCatBtn{
+        width: 40%;
+        font-size: 14px;
+    }
+
+    .taskFrame{
+        height: 280px;
+    }
+
+    .taskPercent{
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .percentText, .percentRate{
+        width: 100%;
+    }
+
+    .createTask{
+        width: 94vw;
+        padding: 16px;
+    }
+
+    .taskDecisionBtn{
+        justify-content: center;
+        width: 100%;
+    }
+
+    .updateTask{
+        flex: 1;
+    }
+}

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="task.css">
+    <title>DO WITH WONDA TASK PAGE</title>
+</head>
+<body>
+
+    <div class="container">
+        <!-- HOMEPAGE SECTION OF THE LANDING PAGE -->
+        <div class="home" id="home">      
+
+            <div class="nav">
+                <div class="logoContent">
+                    <div class="logoImg">
+                        <h3 class="d">d</h3>
+                        <h3 class="w">w</h3>
+                        <p class="b"></p>
+                        <p class="c"></p>
+                        <p class="r"></p>
+                        <h4 class="brandName">DO WITH WONDA</h4>
+                    </div>
+                </div>
+                <div class="links">
+                    <ul><li><a href="./todo.html" class="active">HOME</a></li></ul>
+                </div>
+            </div>
+            
+            <div class="headText">
+                <div class="headCategory">
+                    <h1 class="headings">Tasks</h1>
+                    <div class="headNav">
+                        <button type="button" class="headNavBtn active">Personal</button>
+                        <button type="button" class="headNavBtn">Professional</button>
+                    </div>
+                </div>
+                <div class="headCategory">
+                    <h1 class="headings">Completed</h1>
+                    <div class="headNav">
+                        <button type="button" class="headNavBtn">Personal</button>
+                        <button type="button" class="headNavBtn">Professional</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="taskCategory">
+                <button type="button" class="taskCatBtn active">Today</button>
+                <button type="button" class="taskCatBtn">Overdue</button>
+            </div>
+            
+            <div class="taskHeaderWrap">
+                <!-- The background logo -->
+                <div class="stickyContainer"> 
+
+                    <div class="parent">
+                        <div class="child">
+                            <h3 class="dbg">d</h3>
+                            <h3 class="wbg">w</h3>
+                            <div class="bbg"></div>
+                            <div class="cbg"></div>
+                        </div>
+                    </div>
+                    <div class="parent2">
+                        <div class="child">
+                            <h3 class="dbg">d</h3>
+                            <h3 class="wbg">w</h3>
+                            <div class="bbg"></div>
+                            <div class="cbg"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="taskTitle">
+                    <h2>Task</h2>
+                    <div class="addSymbolText">
+                        <button type="button" class="addTask" id="addTask">+</button>
+                        <h2>Add task</h2>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tasklist form -->
+            <form onsubmit="return false" class="taskFrame">
+
+                <div class="todoWrapper" id="taskList"></div>
+
+                <div class="taskPercent">
+                    <div class="percentText">
+                        <input type="checkbox" checked>   
+                        <p>Task completion rate</p>
+                    </div>
+                    <div class="percentRate">   
+                        <p id="percentValue">0%</p>
+                        <button type="button" class="addTask" id="openForm">+</button>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Task creation form -->
+            <div class="modalBackdrop" id="modalBackdrop"></div>
+            <form class="createTask" id="createTask" name="createTask">
+
+                <h2 class="taskDetails">Tasks Details</h2>
+
+                <div class="taskTitleForm">
+                    <label>Title</label>
+                    <input type="text" id="myTitle" name="title" placeholder="Add a task title" required>
+                </div>
+                
+                <div class="formContent">
+                    <div class="deadline">
+                        <label>Deadline</label>
+                        <input type="date" id="deadline" name="deadline">
+                    </div>
+
+                    <div class="category">
+                        <label>Category</label>
+                        <select id="category" name="category" required>
+                            <option value="">Select category</option>
+                            <option value="personal">Personal</option>
+                            <option value="professional">Professional</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="comment">
+                    <label for="comment">Comments</label>
+                    <textarea id="myComment" name="comment" rows="4" placeholder="Add any comment to your task" required></textarea>
+                </div>
+
+                <div class="taskDecisionBtn">
+                    <button type="button" class="updateTask" id="closeTask">Close</button>
+                    <button type="button" class="updateTask active" id="saveTask">Save task</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+    
+    <script src="task.js"></script>
+</body>
+</html>

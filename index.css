@@ -1,0 +1,930 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+html{
+    scroll-behavior: smooth;
+}
+
+@font-face{
+    font-family: 'Gobold Uplow';
+    src: url('font/Gobold-Uplow.otf') format('opentype');
+}
+
+body{
+    background-image: url(./images/containerImg.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.container{
+    width: 100%;
+    min-height: 100vh;
+}
+
+.home{
+    background: #1a1a1a;
+}
+/* .bold */
+
+.nav{
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80px;
+    font-size: 27px;
+    width: 100%;
+}
+
+.navToggle{
+    display: none;
+}
+
+.hamburger{
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 28px;
+    height: 20px;
+    cursor: pointer;
+    z-index: 20;
+}
+
+.hamburger span{
+    display: block;
+    height: 3px;
+    width: 100%;
+    background: #e6e6e6;
+    border-radius: 2px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.navToggle:checked ~ .hamburger span:nth-child(1){
+    transform: translateY(8.5px) rotate(45deg);
+}
+
+.navToggle:checked ~ .hamburger span:nth-child(2){
+    opacity: 0;
+}
+
+.navToggle:checked ~ .hamburger span:nth-child(3){
+    transform: translateY(-8.5px) rotate(-45deg);
+}
+
+.logoContent{
+    width: 40%;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo{
+    width: 45%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logoImg{
+    --logo-font-size: 15px;
+    --logo-color: #e6e6e6;
+    --circle-size: 32px;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--logo-color);
+    border-radius: 100%;
+}
+
+.d, .w{
+    font-family: 'Gobold Uplow', sans-serif;
+    font-size: var(--logo-font-size);
+    color: var(--logo-color);
+}
+
+.w{
+    margin-left: -3.2px;
+}
+.b{
+    width: 2.4px;
+    height: 10px;
+    background: var(--logo-color);
+    margin: 0 -2.9px;
+    margin-top: -11px;
+}
+
+.c{
+    width: 2.5px;
+    height: 2.5px;
+    background: var(--logo-color);
+    border-radius: 100%;
+    transform: translateY(-9px) translateX(-3px);
+}
+
+.brandName{
+    font-family: montserrat;
+    font-size: 20px;
+    color: #e6e6e6;
+}
+
+.links{
+    width: 60%;
+    display: flex;
+    margin-left: 10%;
+    justify-content: center;
+}
+
+.nav .links ul{
+    width: 65%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    list-style: none;
+    gap: 20px;
+}
+
+.links ul li a{
+    font-family: montserrat;
+    font-size: 20px;
+    text-decoration: none;
+    font-weight: 600;
+    color: #e6e6e6;
+}
+
+.links ul li a:hover{
+    color: #ed3237;
+    transition: 0.5s ease-out;
+}
+
+.links ul li .active{
+    color: #ed3237;
+}
+
+.start{
+    font-size: 17px;
+    font-weight: 600;
+    width: 130px;
+    padding: 7px;
+    border: none;
+    border-radius: 10px;
+    color: #e6e6e6;
+    background: #ed3237;
+    cursor: pointer;
+    box-shadow: 0 0 7px 0 #ed3237;
+    text-decoration: none;
+    text-align: center;
+}
+
+.start:hover{
+    color: #ed3237;
+    box-shadow: 0 0 7px 0 #ed3237;
+    background: black;
+    transition: 0.5s ease;
+}
+
+/* Wrapping context for each decorative-logo layer. Position:relative here
+   makes this the reference box the layer stretches to fill, and lets the
+   real content (boldText/desc, aboutImages, contactAlt) sit above it with
+   z-index instead of needing negative margins to "pull up" over it. */
+.heroWrap,
+.aboutWrap,
+.contactWrap{
+    position: relative;
+    width: 100%;
+}
+
+/* --logoUnit drives every dimension below via calc()/em, so the whole
+   logo shape scales together with a single value. Full size on desktop;
+   scaled down on tablet and hidden on mobile via the media queries below. */
+.stickyContainer,
+.stickyContainerb,
+.stickyContainerc{
+    --logoUnit: 250px;
+
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    overflow: hidden;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.parent, .parent2{
+    position: relative;
+    width: calc(var(--logoUnit) * 1.4);
+    height: calc(var(--logoUnit) * 1.4);
+}
+
+.parent{
+    transform: rotate(35.569deg);
+    margin-left: calc(var(--logoUnit) * -0.8);
+}
+
+.parent2{
+    transform: rotate(324.431deg) scaleX(-1);
+    margin: calc(var(--logoUnit) * -0.804);
+}
+
+.child{
+    --logo-color: #e6e6e6;
+
+    position: absolute;
+    inset: 0;
+    font-size: var(--logoUnit);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dbg, .wbg{
+    font-family: 'Gobold Uplow', sans-serif;
+    font-size: 1em;
+    color: var(--logo-color);
+}
+
+.wbg{
+    margin-left: -0.247em;
+}
+.bbg{
+    width: 0.168em;
+    height: 0.4em;
+    background: var(--logo-color);
+    margin-left: -0.208em;
+    margin-top: -1.2em;
+}
+
+.cbg{
+    width: 0.1676em;
+    height: 0.1676em;
+    background: var(--logo-color);
+    border-radius: 100%;
+    margin-left: -0.43em;
+    margin-top: -1.32em;
+    position: relative;
+    animation: moveCircle 3s ease-in-out infinite;
+}
+
+@keyframes moveCircle{
+    0%, 100%{
+        transform: translateY(0); /* point a */
+    }
+    50%{
+        transform: translateY(-40px);
+    }
+    100%{
+        transform: translateY(0); /* point a */
+    }
+}
+
+.boldText{
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: montserrat;
+    padding-top: 40px;
+}
+
+.l1{
+    font-size: 80px;
+    font-weight: 900;
+    color: #e6e6e6;
+}
+
+.break:hover{
+    display: inline-block;
+    transform-origin: left center;
+    transform: skewY(7deg);
+    cursor: pointer;
+}
+
+.fail:hover{
+    color:#ed3237;
+    cursor: pointer;
+}
+
+.l2{
+    font-size: 44px;
+    font-weight: 900;
+    margin-top: -30px;
+    color: #ed3237;
+}
+
+.l3{
+    font-size: 34px;
+    font-weight: 900;
+    margin-top: -20px;
+    margin-bottom:10px;
+    color: #e6e6e6;
+}
+
+.boldText .start{
+    margin-bottom: 20px;
+}
+
+.desc{
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: montserrat;
+    padding-bottom: 40px;
+}
+
+.desc p{
+    text-align: center;
+    font-size: 21px;
+    color: #e6e6e6;
+}
+
+p .redColor{
+    color: #ed3237;
+}
+
+.desc .start{
+    width: 300px;
+    margin-top: 20px;
+    font-weight: 600;
+}
+
+/* about section  */
+.about{
+    background-color: #1a1a1a;
+    width: 100%;
+    margin-top: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: montserrat;
+}
+
+.about h1{
+    margin-top: 90px;
+    color: #e6e6e6;
+    font-size: 45px;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.about h1 .redColor{
+    color: #ed3237;
+}
+
+.about p{
+    font-size: 20px;
+    color: #e6e6e6;
+    text-align: center;
+    font-weight: 500;
+}
+
+.about p .italic{
+    font-style: italic;
+    font-weight: 700;
+    margin-top: -30px;
+}
+
+.aboutImages{
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-direction: row;
+    padding: 60px 0;
+}
+
+.aboutImages .box{
+    width: 303.63px;
+    background: #1a1a1a;
+    box-shadow: 0 0 7px 0 #ed3237;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 14px;
+}
+
+.aboutImages .box:hover{
+    transform: scale(1.1);
+    box-shadow: 0 0 7px 0 #ed3237, 0 0 20px 0 #ed3237;
+    transition: 0.5s ease-in-out;
+}
+
+
+.aboutImages img{
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 303.63 / 266.63;
+    object-fit: cover;
+    border-radius: 100%;
+    z-index: 0;
+}
+
+.aboutImages p{
+    font-size: 15px;
+    transform: translateY(-50px);
+    z-index: 1;
+}
+
+.aboutImages img:hover{
+    transform: rotate(360deg) scale(0.8);
+    transition: 1s ease-in-out;
+    cursor: pointer;
+}
+
+/* Contact section of the landing */
+.contact{
+    background-color: #1a1a1a;
+    width: 100%;
+    margin-top: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: montserrat;
+}
+
+.contact h1{
+    margin-top: 90px;
+    color: #e6e6e6;
+    font-size: 45px;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.contact h1 .redColor{
+    color: #ed3237;
+}
+
+.contact p{
+    color: #e6e6e6;
+    font-size: 20px;
+    font-weight: 400;
+    margin-top: 20px;
+}
+
+.message{
+    width: 60%;
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-items: center;
+}
+
+.message-box{
+    width: 100%;
+    position: relative;
+}
+
+.message textarea{
+    width: 100%;
+    height: 180px;
+    padding: 16px 14px;
+    background: transparent;
+    border: 2px solid black;
+    font-size: 20px;
+    font-style: italic;
+    font-weight: 100;
+    color: #e6e6e6;
+    box-sizing: border-box;
+    resize: none;
+}
+
+.message-box button{
+    position: absolute;
+    bottom: 5px;
+    right: 0;
+    padding: 8px 20px; 
+    border: none;
+    background: #ed3237;
+    color: white;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 10px 10px 0px 0px;
+}
+.message-box button:hover{
+    box-shadow: 0 0 7px 0 #ed3237;
+    background: black;
+}
+
+p .redColor{
+    color: #ed3237;
+}
+
+.contactAlt{
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 0;
+}
+.contactAlt h3{
+    font-size: 20px;
+    color: #ed3237;
+    margin-top: 60px;
+    font-weight: 600;
+}
+
+.callLines{
+    display: flex;
+    flex-direction: row;
+    color: #ed3237;
+    font-size: 20px;
+    list-style: none;
+}
+.callLines li a{
+    font-size: 18px;
+    color: #e6e6e6;
+    text-decoration: none;
+    margin: 0 5px;
+    font-size: 20px;
+}
+
+.social{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+}
+
+.social .button{
+    display: inline-block;
+    height: 50px;
+    width: 50px;
+    /* float: left; */
+    margin: 0 5px;
+    overflow: hidden;
+    background: #1a1a1a;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 7px 7px rgba(230, 3, 3, 0.2);
+    margin-top: 15px;
+    transition: all 0.3s ease-out;
+}
+
+.social .button:hover{
+    width: 200px;
+    border-radius: 20px;
+    box-shadow: 10px 0 7px 3px rgba(230, 3, 3, 0.2);
+
+}
+
+.social .button .icon{
+    display: inline-block;
+    height: 50px;
+    width: 50px;
+    text-align: center;
+    border-radius: 50px;
+    box-sizing: border-box;
+    line-height: 50px;
+    transition: all 0.3s ease-out;
+    background: #ed3237;
+    color: #e6e6e6;
+    font-size: 25px;
+}
+
+.social .button span{
+    font-size: 20px;
+    color: #e6e6e6;
+    line-height: 50px;
+    transition: all 0.3s ease-out;
+    margin-left: 10px;
+}
+
+.top{
+    width: 100%;
+    height: 50px;
+    margin-top: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.top a, .under{
+    width: 30px;
+    height: 30px;
+    background: #ed3237;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 100%;
+    transition: all 0.3s ease-out;
+}
+
+
+.top a .under i{
+    font-size: 29px;
+    color: #e6e6e6;
+    outline: none;
+    cursor: pointer;
+    border: none;
+}
+
+.base{
+    width: 100%;
+    height: 60px;
+    background: #1a1a1a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 7px 0 #ed3237;
+    gap: 7px;
+}
+
+.base i{
+    font-size: 25px;
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.base h3{
+    font-size: 25px;
+    color: #ed3237;
+    font-weight: 500;
+}
+
+/* ==========================================================
+   RESPONSIVE STYLES
+   ========================================================== */
+
+/* ---------- Tablets / small laptops ---------- */
+@media (max-width: 1024px){
+
+    /* scale the decorative dw logos down for tablet */
+    .stickyContainer,
+    .stickyContainerb,
+    .stickyContainerc{
+        --logoUnit: 160px;
+    }
+
+    .logoContent{
+        width: 30%;
+    }
+
+    .links{
+        width: 70%;
+        margin-left: 5%;
+    }
+
+    .nav .links ul{
+        width: 100%;
+    }
+
+    .l1{
+        font-size: 58px;
+    }
+
+    .l2{
+        font-size: 32px;
+    }
+
+    .l3{
+        font-size: 25px;
+    }
+
+    .aboutImages{
+        flex-wrap: wrap;
+        row-gap: 24px;
+    }
+
+    .aboutImages .box{
+        width: 42%;
+        min-width: 220px;
+    }
+
+    .message{
+        width: 80%;
+    }
+}
+
+/* ---------- Tablets portrait / large phones ---------- */
+@media (max-width: 768px){
+
+    body{
+        /* fixed backgrounds are janky on mobile browsers */
+        background-attachment: scroll;
+    }
+
+    /* decorative dw logos add clutter at this size, hide them */
+    .stickyContainer,
+    .stickyContainerb,
+    .stickyContainerc{
+        display: none;
+    }
+
+    .nav{
+        justify-content: space-between;
+        height: auto;
+        padding: 15px 20px;
+        font-size: 20px;
+        box-sizing: border-box;
+    }
+
+    .logoContent{
+        width: auto;
+    }
+
+    .logo{
+        width: auto;
+    }
+
+    .hamburger{
+        display: flex;
+    }
+
+    /* dropdown panel, toggled purely with the checkbox hack - no JS needed */
+    .links{
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        margin-left: 0;
+        background: #1a1a1a;
+        box-shadow: 0 8px 12px rgba(0,0,0,0.3);
+        z-index: 10;
+    }
+
+    .navToggle:checked ~ .links{
+        display: flex;
+    }
+
+    .nav .links ul{
+        width: 100%;
+        flex-direction: column;
+        gap: 18px;
+        padding: 24px 0;
+    }
+
+    .links ul li a{
+        font-size: 17px;
+    }
+
+    .start{
+        width: 130px;
+        font-size: 15px;
+        padding: 7px;
+    }
+
+    .l1{
+        font-size: 40px;
+    }
+
+    .l2{
+        font-size: 25px;
+        margin-top: -15px;
+    }
+
+    .l3{
+        font-size: 19px;
+    }
+
+    .desc{
+        padding: 0 20px 40px;
+    }
+
+    .desc p{
+        font-size: 16px;
+    }
+
+    .desc .start{
+        width: 220px;
+    }
+
+    .about, .contact{
+        margin-top: 60px;
+    }
+
+    .about h1, .contact h1{
+        font-size: 28px;
+        margin-top: 50px;
+        padding: 0 20px;
+        text-align: center;
+    }
+
+    .about p, .contact p{
+        font-size: 16px;
+        padding: 0 20px;
+    }
+
+    .aboutImages{
+        flex-direction: column;
+        align-items: center;
+        row-gap: 20px;
+    }
+
+    .aboutImages .box{
+        width: 90%;
+        max-width: 320px;
+        min-width: 0;
+    }
+
+    .message{
+        width: 90%;
+        margin-top: 20px;
+    }
+
+    .message textarea{
+        height: 140px;
+        font-size: 16px;
+    }
+
+    .callLines{
+        flex-direction: column;
+        align-items: center;
+        row-gap: 5px;
+    }
+    .base{
+        flex-wrap: wrap;
+        height: auto;
+        padding: 15px 10px;
+        text-align: center;
+    }
+
+    .base h3{
+        width: 100%;
+        font-size: 18px;
+        order: -1;
+        margin-bottom: 8px;
+    }
+}
+
+/* ---------- Small phones ---------- */
+@media (max-width: 480px){
+
+    .brandName{
+        font-size: 15px;
+        margin: 0 12px;
+    }
+
+    .logoImg{
+        --logo-font-size: 13px;
+        --circle-size: 26px;
+    }
+
+    .l1{
+        font-size: 30px;
+    }
+
+    .l2{
+        font-size: 20px;
+    }
+
+    .l3{
+        font-size: 16px;
+    }
+
+    .desc p{
+        font-size: 14px;
+    }
+
+    .about h1, .contact h1{
+        font-size: 24px;
+    }
+
+    .aboutImages .box{
+        width: 100%;
+    }
+
+    .message{
+        width: 95%;
+    }
+
+    .message textarea{
+        font-size: 15px;
+    }
+
+    .callLines{
+        font-size: 16px;
+    }
+
+    .callLines li a{
+        font-size: 16px;
+    }
+}

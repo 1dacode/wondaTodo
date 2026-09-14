@@ -7,13 +7,24 @@
    3. In the Firebase console, go to Firestore Database -> Create database.
       Start in TEST MODE to get running quickly, then see the security
       rules note at the bottom of this file before you launch publicly.
+   4. Go to Build -> Authentication -> Get started -> Sign-in method,
+      and enable the "Anonymous" provider. This gives each browser a
+      real, server-verified identity (no login screen for visitors)
+      that security rules can trust - unlike a plain localStorage id,
+      which anyone could fake.
    =================================================================== */
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+import {
+  getAuth,
+  signInAnonymously,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
 import {
   getFirestore,
   collection,
   addDoc,
   updateDoc,
+  deleteDoc,
   doc,
   onSnapshot,
   query,
@@ -39,6 +50,7 @@ if (firebaseConfig.apiKey === "YOUR_API_KEY") {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const auth = getAuth(app);
 const feedbackCollection = collection(db, 'feedback');
 
 /* ===================== Elements ===================== */
@@ -52,25 +64,65 @@ const feedbackPanel       = document.getElementById('feedbackPanel');
 const feedbackClose       = document.getElementById('feedbackClose');
 const feedbackList        = document.getElementById('feedbackList');
 
-/* ===================== Anonymous per-browser user id ===================== */
-// This is just a label so messages can be grouped by sender - the messages
-// themselves live in Firestore and are visible to every visitor, on every
-// device/browser, not just the one that sent them.
-const USER_ID_KEY = 'doWithWonda:userId:v1';
+/* ===================== Real per-browser identity (Firebase Auth) ===================== */
+// currentUid is the server-verified id for this browser, used both to tag
+// messages on send and to check ownership when deciding whether to show
+// the delete button. Unlike a localStorage string, this can't be faked -
+// Firestore security rules check request.auth.uid, which only Firebase
+// itself can set.
+let currentUid = null;
 
-function getUserId(){
-  try {
-    let userId = localStorage.getItem(USER_ID_KEY);
-    if (!userId) {
-      userId = 'User-' + Math.random().toString(36).slice(2, 8).toUpperCase();
-      localStorage.setItem(USER_ID_KEY, userId);
-    }
-    return userId;
-  } catch (e) {
-    // localStorage unavailable (private browsing, etc.) - fall back to a
-    // one-off id that just won't persist across a refresh.
-    return 'User-' + Math.random().toString(36).slice(2, 8).toUpperCase();
+function displayName(uid){
+  return 'User-' + uid.slice(0, 6).toUpperCase();
+}
+
+onAuthStateChanged(auth, (user) => {
+  currentUid = user ? user.uid : null;
+  // Delete-button visibility depends on ownership, so re-render once we
+  // actually know who "we" are.
+  if (feedbackPanel.classList.contains('show')) {
+    renderFeedback();
   }
+});
+
+signInAnonymously(auth).catch((err) => {
+  console.error('Could not sign in anonymously:', err);
+});
+
+/* ===================== Draft persistence for unsent text ===================== */
+// Saves whatever's currently typed (but not yet sent) so an accidental
+// refresh doesn't lose it. This is separate from clearing the textarea
+// after a successful send, which still happens immediately.
+const DRAFT_KEY = 'doWithWonda:feedbackDraft:v1';
+
+function loadDraft(){
+  try {
+    const saved = localStorage.getItem(DRAFT_KEY);
+    if (saved) feedbackTextarea.value = saved;
+  } catch (e) {
+    console.error('Could not load saved draft:', e);
+  }
+}
+
+function saveDraft(){
+  try {
+    localStorage.setItem(DRAFT_KEY, feedbackTextarea.value);
+  } catch (e) {
+    console.error('Could not save draft:', e);
+  }
+}
+
+function clearDraft(){
+  try {
+    localStorage.removeItem(DRAFT_KEY);
+  } catch (e) {
+    console.error('Could not clear draft:', e);
+  }
+}
+
+if (feedbackTextarea) {
+  loadDraft();
+  feedbackTextarea.addEventListener('input', saveDraft);
 }
 
 /* ===================== Helpers ===================== */
@@ -112,16 +164,23 @@ if (contactForm) {
     const text = feedbackTextarea.value.trim();
     if (!text) return;
 
+    if (!currentUid) {
+      showAlert("Still connecting - try again in a moment.", true);
+      return;
+    }
+
     // Clear right away so the textarea never lingers with the sent text,
     // regardless of how long the write takes or whether it succeeds.
     feedbackTextarea.value = '';
+    clearDraft();
 
     const submitBtn = contactForm.querySelector('button[type="submit"]');
     submitBtn.disabled = true;
 
     try {
       await addDoc(feedbackCollection, {
-        userId: getUserId(),
+        ownerUid: currentUid,
+        userId: displayName(currentUid),
         message: text,
         timestamp: serverTimestamp(),
         reply: null
@@ -139,6 +198,7 @@ if (contactForm) {
 
 /* ===================== Feedback panel ===================== */
 let feedback = [];
+let hasLoadedFeedback = false; // true once the first Firestore response arrives
 
 function openFeedbackPanel(){
   renderFeedback();
@@ -164,6 +224,14 @@ if (feedbackBackdrop) {
 function renderFeedback(){
   feedbackList.innerHTML = '';
 
+  if (!hasLoadedFeedback) {
+    const loading = document.createElement('p');
+    loading.className = 'feedbackEmpty';
+    loading.textContent = 'Loading messages...';
+    feedbackList.appendChild(loading);
+    return;
+  }
+
   if (feedback.length === 0) {
     const empty = document.createElement('p');
     empty.className = 'feedbackEmpty';
@@ -176,10 +244,15 @@ function renderFeedback(){
     const el = document.createElement('div');
     el.className = 'feedbackItem';
 
+    const isOwner = !!(currentUid && item.ownerUid && item.ownerUid === currentUid);
+
     el.innerHTML = `
       <div class="feedbackMeta">
         <span class="feedbackUser">${escapeHtml(item.userId)}</span>
-        <span class="feedbackTime">${formatTime(item.timestamp)}</span>
+        <span class="feedbackMetaRight">
+          <span class="feedbackTime">${formatTime(item.timestamp)}</span>
+          ${isOwner ? '<button type="button" class="feedbackDeleteBtn" title="Delete message">&times;</button>' : ''}
+        </span>
       </div>
       <p class="feedbackMessage">${escapeHtml(item.message)}</p>
       ${item.reply ? `<p class="feedbackReplyText"><strong>Reply:</strong> ${escapeHtml(item.reply)}</p>` : ''}
@@ -207,6 +280,24 @@ function renderFeedback(){
       }
     });
 
+    if (isOwner) {
+      el.querySelector('.feedbackDeleteBtn').addEventListener('click', async () => {
+        const confirmed = confirm('Delete this message? This cannot be undone.');
+        if (!confirmed) return;
+
+        const btn = el.querySelector('.feedbackDeleteBtn');
+        btn.disabled = true;
+
+        try {
+          await deleteDoc(doc(db, 'feedback', item.id));
+          // onSnapshot picks up the removal and re-renders automatically.
+        } catch (err) {
+          console.error('Could not delete message:', err);
+          btn.disabled = false;
+        }
+      });
+    }
+
     feedbackList.appendChild(el);
   });
 }
@@ -222,12 +313,22 @@ onSnapshot(feedbackQuery, (snapshot) => {
     id: docSnap.id,
     ...docSnap.data()
   }));
+  hasLoadedFeedback = true;
 
   if (feedbackPanel.classList.contains('show')) {
     renderFeedback();
   }
 }, (err) => {
   console.error('Could not load feedback:', err);
+  hasLoadedFeedback = true;
+
+  if (feedbackPanel.classList.contains('show')) {
+    feedbackList.innerHTML = '';
+    const errorMsg = document.createElement('p');
+    errorMsg.className = 'feedbackEmpty';
+    errorMsg.textContent = 'Could not load messages - check your connection or Firebase setup.';
+    feedbackList.appendChild(errorMsg);
+  }
 });
 
 /* ===================================================================
@@ -243,16 +344,26 @@ onSnapshot(feedbackQuery, (snapshot) => {
      match /databases/{database}/documents {
        match /feedback/{messageId} {
          allow read: if true;
-         allow create: if request.resource.data.keys().hasAll(['userId', 'message', 'timestamp', 'reply'])
+         allow create: if request.auth != null
+                       && request.resource.data.ownerUid == request.auth.uid
+                       && request.resource.data.keys().hasAll(['ownerUid', 'userId', 'message', 'timestamp', 'reply'])
                        && request.resource.data.message is string
                        && request.resource.data.message.size() < 2000;
          allow update: if request.resource.data.diff(resource.data).affectedKeys().hasOnly(['reply']);
-         allow delete: if false;
+         allow delete: if request.auth != null && request.auth.uid == resource.data.ownerUid;
        }
      }
    }
 
-   This lets anyone read and send messages, but only ever change the
-   "reply" field on an existing message (not the original text), and
-   nobody can delete anything via the client.
+   This requires the visitor to be signed in (anonymously - see the setup
+   note at the top of this file) to send a message, and stamps that real,
+   server-verified uid onto the message as ownerUid. Only that same uid
+   can later delete it - unlike a plain localStorage string, this can't
+   be spoofed by editing values in DevTools, since request.auth.uid is
+   set by Firebase itself, not sent by the client.
+
+   Replies stay open to anyone (any visitor can reply to any message,
+   not just the owner) - that's intentional so the site owner or other
+   visitors can respond. Restrict "allow update" further if you only
+   want specific people replying.
    =================================================================== */

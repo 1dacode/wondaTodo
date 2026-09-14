@@ -689,6 +689,27 @@ p .redColor{
     font-size: 12px;
 }
 
+.feedbackMetaRight{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.feedbackDeleteBtn{
+    background: transparent;
+    border: none;
+    color: rgb(162, 162, 162);
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0 2px;
+    transition: color 0.2s ease;
+}
+
+.feedbackDeleteBtn:hover{
+    color: #ed3237;
+}
+
 .feedbackUser{
     color: #ed3237;
     font-weight: 600;

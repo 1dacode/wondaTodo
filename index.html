@@ -137,12 +137,28 @@
             <h1>CONTACT <span class="redColor">US</span></h1>
             <p>For more inquiries and feedback, we'd love to hear from you.</p>
 
-            <form class="message">
+            <form class="message" id="contactForm">
                 <div class="message-box">
-                    <textarea type="text" placeholder="Write your message..." required></textarea>
+                    <textarea id="feedbackTextarea" placeholder="Write your message..." required></textarea>
                     <button type="submit">Send</button>
                 </div>
+                <p class="alert" id="sendAlert"></p>
             </form>
+
+            <div class="viewFeedbackTrigger" id="viewFeedbackTrigger">
+                <i class="fa-solid fa-comments"></i>
+                <span>SEE USER FEEDBACK AND MESSAGES</span>
+            </div>
+
+            <!-- Feedback panel - hidden by default, opened via the trigger above -->
+            <div class="feedbackBackdrop" id="feedbackBackdrop"></div>
+            <div class="feedbackPanel" id="feedbackPanel">
+                <div class="feedbackHeader">
+                    <h2>User Feedback &amp; Messages</h2>
+                    <button type="button" class="feedbackClose" id="feedbackClose" aria-label="Close">&times;</button>
+                </div>
+                <div class="feedbackList" id="feedbackList"></div>
+            </div>
 
                 <div class="contactWrap">
                     <!-- background logo -->
@@ -218,5 +234,6 @@
         </section>
         
     </div>
+    <script type="module" src="index.js"></script>
 </body>
 </html>

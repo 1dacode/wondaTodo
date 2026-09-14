@@ -527,6 +527,233 @@ p .redColor{
     background: black;
 }
 
+.message-box button:active{
+    background: #b7262a;
+    box-shadow: 0 0 4px 0 #ed3237;
+    transform: scale(0.96);
+    transition: transform 0.1s ease;
+}
+
+.alert{
+    margin-top: 14px;
+    padding: 10px 16px;
+    border-radius: 8px;
+    background: rgba(111, 220, 123, 0.12);
+    border: 1px solid #6fdc7b;
+    color: #6fdc7b;
+    font-family: montserrat;
+    font-size: 15px;
+    text-align: center;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-6px);
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+}
+
+.alert.show{
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.alert.error{
+    background: rgba(237, 50, 55, 0.12);
+    border: 1px solid #ed3237;
+    color: #ed3237;
+}
+
+/* ===================== Feedback viewing trigger ===================== */
+.viewFeedbackTrigger{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 60%;
+    margin-top: 24px;
+    padding: 12px 0;
+    color: #e6e6e6;
+    font-family: montserrat;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    border-top: 1px solid rgba(230, 230, 230, 0.15);
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.viewFeedbackTrigger i{
+    font-size: 18px;
+    color: #ed3237;
+}
+
+.viewFeedbackTrigger:hover{
+    color: #ed3237;
+}
+
+/* ===================== Feedback panel (modal) ===================== */
+.feedbackBackdrop{
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 29;
+}
+
+.feedbackBackdrop.show{
+    opacity: 1;
+    visibility: visible;
+}
+
+.feedbackPanel{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: min(600px, 92vw);
+    max-height: 80vh;
+    background: #1a1a1a;
+    border-radius: 14px;
+    box-shadow: 0 0 10px 0 #ed3237;
+    display: flex;
+    flex-direction: column;
+    z-index: 30;
+    font-family: montserrat;
+    box-sizing: border-box;
+
+    opacity: 0;
+    visibility: hidden;
+    transform: translate(-50%, -50%) translateY(20px);
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+}
+
+.feedbackPanel.show{
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, -50%);
+}
+
+.feedbackHeader{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 22px;
+    border-bottom: 1px solid rgba(230, 230, 230, 0.15);
+}
+
+.feedbackHeader h2{
+    color: #e6e6e6;
+    font-size: 20px;
+}
+
+.feedbackClose{
+    background: transparent;
+    border: none;
+    color: #e6e6e6;
+    font-size: 26px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.feedbackClose:hover{
+    color: #ed3237;
+}
+
+.feedbackList{
+    overflow-y: auto;
+    padding: 18px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.feedbackEmpty{
+    color: rgb(162, 162, 162);
+    font-size: 14px;
+    font-style: italic;
+    text-align: center;
+}
+
+.feedbackItem{
+    background: #232323;
+    border-radius: 10px;
+    padding: 14px 16px;
+    border: 1px solid rgba(230, 230, 230, 0.1);
+}
+
+.feedbackMeta{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 12px;
+}
+
+.feedbackUser{
+    color: #ed3237;
+    font-weight: 600;
+}
+
+.feedbackTime{
+    color: rgb(162, 162, 162);
+}
+
+.feedbackMessage{
+    color: #e6e6e6;
+    font-size: 15px;
+    line-height: 1.4;
+    margin-bottom: 12px;
+}
+
+.feedbackReplyText{
+    background: rgba(237, 50, 55, 0.08);
+    border-left: 3px solid #ed3237;
+    padding: 8px 10px;
+    color: #e6e6e6;
+    font-size: 13px;
+    margin-bottom: 10px;
+}
+
+.feedbackReplyText strong{
+    color: #ed3237;
+}
+
+.feedbackReplyForm{
+    display: flex;
+    gap: 8px;
+}
+
+.feedbackReplyInput{
+    flex: 1;
+    resize: none;
+    height: 40px;
+    padding: 8px 10px;
+    background: transparent;
+    border: 1px solid rgba(230, 230, 230, 0.3);
+    border-radius: 6px;
+    color: #e6e6e6;
+    font-family: montserrat;
+    font-size: 13px;
+}
+
+.feedbackReplyBtn{
+    padding: 0 16px;
+    border: none;
+    border-radius: 6px;
+    background: #ed3237;
+    color: #e6e6e6;
+    font-family: montserrat;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.feedbackReplyBtn:hover{
+    background: black;
+    box-shadow: 0 0 6px 0 #ed3237;
+}
+
 p .redColor{
     color: #ed3237;
 }
@@ -721,6 +948,10 @@ p .redColor{
     .message{
         width: 80%;
     }
+
+    .viewFeedbackTrigger{
+        width: 80%;
+    }
 }
 
 /* ---------- Tablets portrait / large phones ---------- */
@@ -855,6 +1086,29 @@ p .redColor{
         font-size: 16px;
     }
 
+    .viewFeedbackTrigger{
+        width: 90%;
+        font-size: 13px;
+        text-align: center;
+    }
+
+    .feedbackPanel{
+        width: 94vw;
+        max-height: 85vh;
+    }
+
+    .feedbackHeader h2{
+        font-size: 17px;
+    }
+
+    .feedbackReplyForm{
+        flex-direction: column;
+    }
+
+    .feedbackReplyBtn{
+        padding: 8px 0;
+    }
+
     .callLines{
         flex-direction: column;
         align-items: center;
@@ -918,6 +1172,10 @@ p .redColor{
 
     .message textarea{
         font-size: 15px;
+    }
+
+    .viewFeedbackTrigger{
+        width: 95%;
     }
 
     .callLines{
